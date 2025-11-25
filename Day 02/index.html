@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viral Growth Masterclass - Free Live Workshop</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif; /* Changed font to Outfit for a trendier look */
+            background-color: #020617; /* Deep Navy/Black */
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Vibrant Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #f472b6, #fb923c, #facc15); /* Pink -> Orange -> Yellow */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* High Energy Button Gradient */
+        .cta-gradient {
+            background-image: linear-gradient(to right, #ea580c, #db2777); /* Orange to Pink */
+            transition: all 0.3s ease;
+        }
+        .cta-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(219, 39, 119, 0.6);
+            filter: brightness(1.1);
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        /* Floating Badge Animation */
+        @keyframes float-up {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .metric-badge {
+            animation: float-up 5s ease-in-out infinite;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(251, 146, 60, 0.3);
+            color: #fb923c;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+        }
+        .metric-badge:nth-child(2) { animation-delay: 1.5s; border-color: rgba(244, 114, 182, 0.3); color: #f472b6; }
+        .metric-badge:nth-child(3) { animation-delay: 3s; border-color: rgba(250, 204, 21, 0.3); color: #facc15; }
+
+        /* Canvas */
+        #viral-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Form Input Styling */
+        .marketing-input {
+            background-color: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+        .marketing-input:focus {
+            outline: none;
+            border-color: #fb923c;
+            background-color: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.2);
+        }
+        
+        .required-asterisk { color: #f43f5e; margin-left: 2px; }
+
+        /* Background Orb Glows */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="selection:bg-orange-500 selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" style="background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="bg-gradient-to-br from-orange-500 to-pink-500 p-2 rounded-lg group-hover:rotate-12 transition duration-300">
+                    <i data-lucide="rocket" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight">Growth<span class="text-orange-500">Hacker</span></span>
+            </a>
+            <a href="#register" class="hidden md:inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-white transition-all duration-200 rounded-full bg-white/5 border border-white/10 hover:bg-orange-500 hover:border-orange-500">
+                Book My Free Spot
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
+        <canvas id="viral-canvas"></canvas>
+        
+        <!-- Background Glows -->
+        <div class="glow-orb w-96 h-96 bg-orange-600 top-0 left-1/4"></div>
+        <div class="glow-orb w-96 h-96 bg-pink-600 bottom-0 right-1/4"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Hero Text -->
+            <div>
+                <!-- Floating Metrics -->
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <div class="metric-badge px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                        <i data-lucide="trending-up" class="w-4 h-4"></i> ROAS +500%
+                    </div>
+                    <div class="metric-badge px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                        <i data-lucide="users" class="w-4 h-4"></i> 1M+ Reach
+                    </div>
+                    <div class="metric-badge px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                        <i data-lucide="zap" class="w-4 h-4"></i> AI Powered
+                    </div>
+                </div>
+
+                <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6">
+                    Master the Art of <br>
+                    <span class="text-gradient">Digital Dominance</span>
+                </h1>
+                
+                <p class="text-lg text-slate-300 mb-8 max-w-lg leading-relaxed">
+                    Learn the secrets of SEO, Viral Content, and AI Marketing from an ex-CMO. Stop guessing and start scaling your brand in 2025.
+                </p>
+
+                <!-- Timer -->
+                <div class="glass-panel p-6 rounded-2xl inline-block w-full max-w-md mb-8">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                        </span>
+                        Workshop Starts In:
+                    </p>
+                    <div class="flex justify-between items-end text-center font-mono">
+                        <div><div id="days" class="text-3xl font-bold text-white">00</div><div class="text-[10px] text-slate-400 uppercase">Days</div></div>
+                        <div class="text-2xl text-slate-600 pb-2">:</div>
+                        <div><div id="hours" class="text-3xl font-bold text-white">00</div><div class="text-[10px] text-slate-400 uppercase">Hours</div></div>
+                        <div class="text-2xl text-slate-600 pb-2">:</div>
+                        <div><div id="minutes" class="text-3xl font-bold text-white">00</div><div class="text-[10px] text-slate-400 uppercase">Mins</div></div>
+                        <div class="text-2xl text-slate-600 pb-2">:</div>
+                        <div><div id="seconds" class="text-3xl font-bold text-orange-400">00</div><div class="text-[10px] text-slate-400 uppercase">Secs</div></div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#register" class="cta-gradient px-8 py-4 rounded-xl font-bold text-lg text-white shadow-lg flex items-center justify-center gap-2">
+                        Claim Free Ticket <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                    <div class="flex items-center gap-3 px-4 py-2">
+                        <div class="flex -space-x-2">
+                            <img class="w-8 h-8 rounded-full border-2 border-[#020617]" src="https://placehold.co/32x32/orange/white?text=A" alt="User">
+                            <img class="w-8 h-8 rounded-full border-2 border-[#020617]" src="https://placehold.co/32x32/pink/white?text=B" alt="User">
+                            <img class="w-8 h-8 rounded-full border-2 border-[#020617]" src="https://placehold.co/32x32/purple/white?text=C" alt="User">
+                        </div>
+                        <span class="text-sm text-slate-400">Join 850+ Marketers</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Visual (3D Isometric Concept) -->
+            <div class="hidden lg:block relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full blur-[100px] opacity-20"></div>
+                <!-- SVG Illustration representing Digital Growth -->
+                <svg viewBox="0 0 600 500" class="w-full h-auto drop-shadow-2xl animate-[float-up_6s_ease-in-out_infinite]" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Phone -->
+                    <rect x="200" y="50" width="200" height="400" rx="30" fill="#0f172a" stroke="#334155" stroke-width="4"/>
+                    <rect x="210" y="60" width="180" height="380" rx="24" fill="#1e293b"/>
+                    
+                    <!-- Chart Line -->
+                    <path d="M220 350 L260 300 L300 320 L340 250 L380 150" stroke="#fb923c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="380" cy="150" r="6" fill="#fb923c" class="animate-ping"/>
+                    <circle cx="380" cy="150" r="4" fill="#fff"/>
+
+                    <!-- Floating Elements -->
+                    <g transform="translate(140, 150)">
+                        <rect width="60" height="60" rx="16" fill="url(#grad_insta)" class="animate-bounce" style="animation-duration: 3s"/>
+                        <path d="M15 15 H45 V45 H15 Z" stroke="white" stroke-width="3" rx="5" fill="none"/>
+                        <circle cx="30" cy="30" r="8" stroke="white" stroke-width="3"/>
+                    </g>
+                    
+                    <g transform="translate(420, 250)">
+                         <rect width="60" height="60" rx="30" fill="#2563eb" class="animate-bounce" style="animation-duration: 4s"/>
+                         <text x="18" y="42" font-family="sans-serif" font-weight="bold" font-size="30" fill="white">in</text>
+                    </g>
+
+                    <g transform="translate(400, 100)">
+                        <rect width="70" height="50" rx="12" fill="#ef4444" class="animate-bounce" style="animation-duration: 5s"/>
+                        <polygon points="28,15 48,25 28,35" fill="white"/>
+                   </g>
+
+                    <defs>
+                        <linearGradient id="grad_insta" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#facc15"/>
+                            <stop offset="50%" stop-color="#f472b6"/>
+                            <stop offset="100%" stop-color="#a855f7"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section class="py-24 relative bg-[#020617]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">What You Will <span class="text-orange-500">Master</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">3 Hours of intensive, zero-fluff strategies to 10x your online presence.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-panel p-8 rounded-3xl group hover:bg-slate-800/80 transition duration-300 border-t-4 border-transparent hover:border-orange-500">
+                    <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                        <i data-lucide="megaphone" class="w-8 h-8 text-orange-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Viral Social Strategy</h3>
+                    <p class="text-slate-400 leading-relaxed">Decode the algorithms of Instagram & LinkedIn. Learn how to create content that gets shared automatically.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-panel p-8 rounded-3xl group hover:bg-slate-800/80 transition duration-300 border-t-4 border-transparent hover:border-pink-500">
+                    <div class="w-16 h-16 bg-pink-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                        <i data-lucide="bot" class="w-8 h-8 text-pink-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">AI Marketing Automation</h3>
+                    <p class="text-slate-400 leading-relaxed">Use ChatGPT & Midjourney to create a month's worth of content in 30 minutes. Scale without burnout.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-panel p-8 rounded-3xl group hover:bg-slate-800/80 transition duration-300 border-t-4 border-transparent hover:border-blue-500">
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                        <i data-lucide="bar-chart-2" class="w-8 h-8 text-blue-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Performance & SEO</h3>
+                    <p class="text-slate-400 leading-relaxed">Master Google Ads and technical SEO to drive high-intent traffic that converts into sales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section id="register" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+        
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row gap-16 items-center">
+            
+            <div class="lg:w-1/2">
+                <span class="text-pink-500 font-bold tracking-widest uppercase text-sm">Limited Time Offer</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-2 mb-6">Secure Your <br>Free Spot Now</h2>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-orange-500/20 p-3 rounded-full"><i data-lucide="check" class="w-6 h-6 text-orange-500"></i></div>
+                        <div>
+                            <h4 class="font-bold text-lg">Live Q&A Session</h4>
+                            <p class="text-slate-400">Get your specific business questions answered.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-pink-500/20 p-3 rounded-full"><i data-lucide="gift" class="w-6 h-6 text-pink-500"></i></div>
+                        <div>
+                            <h4 class="font-bold text-lg">Bonus: "The Viral Checklist"</h4>
+                            <p class="text-slate-400">PDF Guide worth $49, yours free upon registration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="lg:w-1/2 w-full">
+                <div class="glass-panel p-8 md:p-10 rounded-3xl relative">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-orange-500 rounded-full blur-[80px] opacity-40"></div>
+                    
+                    <form class="space-y-5 relative z-10">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">Full Name <span class="required-asterisk">*</span></label>
+                            <input type="text" required class="marketing-input w-full px-4 py-3 rounded-xl" placeholder="Ex: Anuj Yadav">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">City <span class="required-asterisk">*</span></label>
+                            <input type="text" required class="marketing-input w-full px-4 py-3 rounded-xl" placeholder="Ex: Mumbai">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">WhatsApp Number <span class="required-asterisk">*</span></label>
+                            <input type="tel" required class="marketing-input w-full px-4 py-3 rounded-xl" placeholder="Ex: +91 98765 43210">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">Email Address <span class="required-asterisk">*</span></label>
+                            <input type="email" required class="marketing-input w-full px-4 py-3 rounded-xl" placeholder="Ex: hello@growth.com">
+                        </div>
+                        <button class="w-full cta-gradient py-4 rounded-xl text-white font-bold text-lg shadow-lg mt-2">
+                            Register For Free
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructor Section -->
+    <section class="py-24 relative overflow-hidden bg-[#020617]">
+        <!-- Decorative bg -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-orange-500/10 to-pink-500/10 blur-[100px] rounded-full"></div>
+
+        <div class="max-w-4xl mx-auto px-4 relative z-10">
+            <div class="glass-panel p-10 md:p-14 rounded-[3rem] border-t border-orange-500/20">
+                <div class="flex flex-col md:flex-row items-center gap-10">
+                    
+                    <div class="relative group">
+                        <div class="absolute inset-0 bg-gradient-to-r from-orange-400 to-pink-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
+                        <img src="https://placehold.co/250x250/1e293b/ffffff?text=AY" alt="Mr. Anuj Yadav" class="relative w-48 h-48 rounded-full border-4 border-[#020617] object-cover">
+                    </div>
+
+                    <div class="text-center md:text-left flex-1">
+                        <div class="flex items-center justify-center md:justify-start gap-2 mb-2">
+                            <span class="bg-orange-500/20 text-orange-400 text-xs font-bold px-3 py-1 rounded-full border border-orange-500/30">MENTOR</span>
+                            <div class="flex gap-2">
+                                <i data-lucide="linkedin" class="w-4 h-4 text-slate-400 hover:text-white cursor-pointer"></i>
+                                <i data-lucide="twitter" class="w-4 h-4 text-slate-400 hover:text-white cursor-pointer"></i>
+                            </div>
+                        </div>
+                        
+                        <h2 class="text-3xl md:text-4xl font-bold mb-2">Mr. Anuj Yadav</h2>
+                        <p class="text-pink-400 font-medium text-lg mb-6">Digital Growth Strategist & Ex-CMO</p>
+                        
+                        <p class="text-slate-300 mb-8 leading-relaxed">
+                            With over $50M in ad spend managed for top brands, Anuj knows what works. He has helped 100+ startups scale from zero to hero using data-driven marketing and viral content strategies.
+                        </p>
+
+                        <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+                            <div>
+                                <div class="text-2xl font-bold text-white">12+</div>
+                                <div class="text-xs text-slate-500 uppercase font-bold">Years Exp</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-white">50k+</div>
+                                <div class="text-xs text-slate-500 uppercase font-bold">Students</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-white">100+</div>
+                                <div class="text-xs text-slate-500 uppercase font-bold">Clients</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-slate-800 text-center text-slate-500 text-sm">
+        <p>&copy; 2024 GrowthHacker Academy. Built for Marketers.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        lucide.createIcons();
+
+        // --- Animated Canvas Logic (Viral Particles) ---
+        const canvas = document.getElementById('viral-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight; // Full screen effect for hero
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 3;
+                this.speedX = (Math.random() - 0.5) * 1;
+                this.speedY = (Math.random() - 0.5) * 1;
+                // Warm colors for marketing vibe
+                const colors = ['rgba(249, 115, 22, 0.4)', 'rgba(236, 72, 153, 0.4)', 'rgba(250, 204, 21, 0.3)'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.01; // Particles shrink slightly
+                if (this.size <= 0.2) { // Reset
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 4;
+                }
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Create particles
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw connecting lines if close
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(249, 115, 22, ${0.1 - dist/1000})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- Countdown Timer ---
+        const workshopDate = new Date("December 10, 2025 10:00:00 UTC").getTime();
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = workshopDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            const pad = (n) => String(n).padStart(2, '0');
+            document.getElementById("days").innerHTML = pad(days);
+            document.getElementById("hours").innerHTML = pad(hours);
+            document.getElementById("minutes").innerHTML = pad(minutes);
+            document.getElementById("seconds").innerHTML = pad(seconds);
+        }, 1000);
+    </script>
+</body>
+</html>
